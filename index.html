@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>war — keshi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-paused">
+  <div class="intro" id="intro">
+    <span class="intro-text">I love Keshi.</span>
+  </div>
+
+  <div class="bg-layer" id="bg-layer"></div>
+  <div class="lava-layer" id="lava-layer">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+  <div class="overlay"></div>
+  <div class="motes" id="motes"></div>
+
+  <main class="player">
+    <div class="art-wrap">
+      <img id="cover-art" class="cover" src="assets/art/cover.jpg" alt="War cover art">
+    </div>
+
+    <div class="lyrics-wrap" id="lyrics-wrap">
+      <div class="lyrics-scroll" id="lyrics-scroll">
+        <!-- lyric lines injected here by js/player.js -->
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="track-info">
+        <div class="title">War</div>
+        <div class="artist">keshi</div>
+      </div>
+      <audio id="audio" src="assets/audio/war.mp3" preload="metadata"></audio>
+      <div class="seek-row">
+        <span class="time" id="time-current">0:00</span>
+        <input type="range" id="seek" min="0" max="100" value="0" step="0.1">
+        <span class="time" id="time-duration">0:00</span>
+      </div>
+      <div class="buttons">
+        <div class="play-wrap">
+          <svg class="progress-ring" viewBox="0 0 64 64">
+            <circle class="progress-ring-bg" cx="32" cy="32" r="29"></circle>
+            <circle class="progress-ring-fill" id="progress-ring-fill" cx="32" cy="32" r="29"></circle>
+          </svg>
+          <button id="play-pause" aria-label="Play"><span class="icon">▶</span></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/player.js"></script>
+</body>
+</html>
