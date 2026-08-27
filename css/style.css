@@ -29,7 +29,7 @@ html, body {
 .intro-text {
   font-family: 'Montserrat', system-ui, sans-serif;
   font-weight: 500;
-  font-size: clamp(1.8rem, 6.5vw, 3.4rem);
+  font-size: clamp(0.9rem, 3.25vw, 1.7rem);
   letter-spacing: 0.04em;
   color: #9CAF88;
   text-shadow: 0 0 40px rgba(156, 175, 136, 0.35);
