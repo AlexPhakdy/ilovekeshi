@@ -219,9 +219,9 @@ seek.addEventListener('input', () => {
 
 loadLyrics();
 
-// Try to start playback as soon as the page opens. Browsers block unmuted
-// autoplay without a prior user gesture, so if it's rejected, fall back to
-// starting on the very first tap/click/keypress anywhere on the page.
+// Start playback once the intro message has faded out, not immediately on
+// load. Browsers block unmuted autoplay without a prior user gesture, so if
+// it's rejected, fall back to starting on the very first tap/click/keypress.
 function attemptAutoplay() {
   const playPromise = audio.play();
   if (playPromise !== undefined) {
@@ -236,7 +236,14 @@ function attemptAutoplay() {
     });
   }
 }
-attemptAutoplay();
+
+const introEl = document.getElementById('intro');
+introEl.addEventListener('animationend', (e) => {
+  // The intro's text span has its own separate fade animation, whose
+  // animationend also bubbles up here — only react to the wrapper's own.
+  if (e.target !== introEl) return;
+  attemptAutoplay();
+});
 
 // --- Cover art parallax tilt (mouse on desktop, gyroscope on mobile) ---
 
