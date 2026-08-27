@@ -6,6 +6,9 @@ const timeDuration = document.getElementById('time-duration');
 const lyricsScroll = document.getElementById('lyrics-scroll');
 const lyricsWrap = document.getElementById('lyrics-wrap');
 const playIcon = playPauseBtn.querySelector('.icon');
+const playIconPath = document.getElementById('play-icon-path');
+const PLAY_PATH = 'M8 5v14l11-7z';
+const PAUSE_PATH = 'M6 5h4v14H6zM14 5h4v14h-4z';
 const progressRing = document.getElementById('progress-ring-fill');
 const RING_CIRCUMFERENCE = 182.2;
 const motesContainer = document.getElementById('motes');
@@ -120,10 +123,11 @@ async function loadLyrics() {
   updateActiveLine();
 }
 
-function setIcon(text) {
+function setIcon(isPlaying) {
   playIcon.classList.remove('bounce');
   void playIcon.offsetWidth; // restart the animation even if it's already mid-play
-  playIcon.textContent = text;
+  playIconPath.setAttribute('d', isPlaying ? PAUSE_PATH : PLAY_PATH);
+  playPauseBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
   playIcon.classList.add('bounce');
 }
 
@@ -140,12 +144,12 @@ playPauseBtn.addEventListener('click', () => {
 });
 
 audio.addEventListener('play', () => {
-  setIcon('⏸');
+  setIcon(true);
   document.body.classList.remove('is-paused');
 });
 
 audio.addEventListener('pause', () => {
-  setIcon('▶');
+  setIcon(false);
   document.body.classList.add('is-paused');
 });
 

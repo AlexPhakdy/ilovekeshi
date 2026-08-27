@@ -188,26 +188,26 @@ body.is-paused .bg-layer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(3vh + env(safe-area-inset-top)) 6vw calc(3vh + env(safe-area-inset-bottom) + 60px);
-  gap: 2.5vh;
+  padding: calc(2vh + env(safe-area-inset-top) + 50px) 6vw calc(2vh + env(safe-area-inset-bottom) + 90px);
+  gap: 2vh;
 }
 
 .art-wrap {
   flex-shrink: 0;
   width: 100%;
-  margin-top: 6vh;
+  margin-top: 2vh;
   display: flex;
   justify-content: center;
   perspective: 800px;
 }
 
 .cover {
-  width: min(80vw, 44vh, 440px);
+  width: min(64vw, 34vh, 340px);
   aspect-ratio: 1 / 1;
   height: auto;
   object-fit: cover;
-  border-radius: 20px;
-  box-shadow: 0 24px 70px rgba(0,0,0,0.6);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
   transform: rotateX(var(--tiltX, 0deg)) rotateY(var(--tiltY, 0deg));
   transition: transform 0.15s ease-out;
   will-change: transform;
@@ -216,7 +216,7 @@ body.is-paused .bg-layer {
 .lyrics-wrap {
   flex-shrink: 0;
   width: min(700px, 92vw);
-  max-height: 26vh;
+  max-height: 22vh;
   min-height: 0;
   overflow: hidden;
   mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
