@@ -17,6 +17,8 @@ const coverArt = document.getElementById('cover-art');
 let lyrics = []; // [{ time: seconds, text: string }]
 let focusIndex = -1;
 let focusIsActive = false;
+let userScrolling = false;
+let userScrollTimer = null;
 
 function formatTime(sec) {
   if (!isFinite(sec)) return '0:00';
@@ -63,11 +65,23 @@ function renderLyrics() {
     div.dataset.index = i;
     div.addEventListener('click', () => {
       audio.currentTime = line.time;
+      userScrolling = false;
+      focusIndex = -1;
       updateActiveLine();
     });
     lyricsScroll.appendChild(div);
   });
+  syncLyricsPadding();
 }
+
+// So the first/last lyric line can still be scrolled to the vertical
+// center of the (now natively scrollable) lyrics window.
+function syncLyricsPadding() {
+  const half = lyricsWrap.clientHeight / 2;
+  lyricsScroll.style.paddingTop = `${half}px`;
+  lyricsScroll.style.paddingBottom = `${half}px`;
+}
+window.addEventListener('resize', syncLyricsPadding);
 
 function updateActiveLine() {
   if (lyrics.length === 0) return;
@@ -100,12 +114,37 @@ function updateActiveLine() {
     }
   }
 
-  const focusEl = els[focusIndex];
-  if (focusEl) {
-    const offset = focusEl.offsetTop - (lyricsWrap.clientHeight / 2) + (focusEl.clientHeight / 2);
-    lyricsScroll.style.transform = `translateY(${-offset}px)`;
-  }
+  scrollToFocus();
 }
+
+function scrollToFocus() {
+  if (userScrolling) return;
+  const focusEl = lyricsScroll.children[focusIndex];
+  if (!focusEl) return;
+  const target = focusEl.offsetTop - (lyricsWrap.clientHeight / 2) + (focusEl.clientHeight / 2);
+  lyricsWrap.scrollTop = target;
+}
+
+// Let people swipe/drag through the lyrics freely. While they're actively
+// touching or scrolling it, stop forcing the auto-follow position; resume
+// following playback automatically a couple seconds after they let go.
+function pauseAutoFollow() {
+  userScrolling = true;
+  clearTimeout(userScrollTimer);
+}
+
+function scheduleAutoFollowResume() {
+  clearTimeout(userScrollTimer);
+  userScrollTimer = setTimeout(() => {
+    userScrolling = false;
+    scrollToFocus();
+  }, 2500);
+}
+
+lyricsWrap.addEventListener('touchstart', pauseAutoFollow, { passive: true });
+lyricsWrap.addEventListener('pointerdown', pauseAutoFollow);
+lyricsWrap.addEventListener('wheel', pauseAutoFollow, { passive: true });
+lyricsWrap.addEventListener('scroll', scheduleAutoFollowResume, { passive: true });
 
 async function loadLyrics() {
   try {
