@@ -188,7 +188,7 @@ body.is-paused .bg-layer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3vh 6vw;
+  padding: calc(3vh + env(safe-area-inset-top)) 6vw calc(3vh + env(safe-area-inset-bottom) + 60px);
   gap: 2.5vh;
 }
 
