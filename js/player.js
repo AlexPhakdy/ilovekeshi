@@ -214,6 +214,17 @@ window.addEventListener('mousemove', (e) => {
   setTilt(dx * MAX_TILT, -dy * MAX_TILT);
 });
 
+// Touch devices don't fire mousemove on a finger drag, so drive the same
+// tilt from touchmove — lets you drag across the art to tilt it directly,
+// on top of the ambient gyroscope-based tilt below.
+window.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 0) return;
+  const touch = e.touches[0];
+  const dx = (touch.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+  const dy = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+  setTilt(dx * MAX_TILT, -dy * MAX_TILT);
+}, { passive: true });
+
 function handleOrientation(e) {
   if (e.gamma === null || e.beta === null) return;
   const gamma = Math.max(-30, Math.min(30, e.gamma));
